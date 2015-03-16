@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <GridView
+        android:layout_weight="1.5"
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="40dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="1dp"
+        android:horizontalSpacing="1dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"></GridView>
+
+    <RelativeLayout
+        android:layout_weight="8.5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/iniciar"
+            android:text="Iniciar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="iniciar"/>
+
+        <Button
+            android:id="@+id/detener"
+            android:text="Detener"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="detener"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
