@@ -61,9 +61,6 @@ public class ImageAdapter extends BaseAdapter {
         mThumbIds[position] = R.drawable.ic_espera;
     }
 
-    public void setmThumbIdsReset () {
-    }
-
     public Integer[] mThumbIds = {
             R.drawable.ic_espera, R.drawable.ic_espera, R.drawable.ic_espera,
             R.drawable.ic_espera, R.drawable.ic_espera, R.drawable.ic_espera,

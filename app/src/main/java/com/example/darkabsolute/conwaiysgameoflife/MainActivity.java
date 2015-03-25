@@ -10,17 +10,19 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.darkabsolute.acciones.Iniciar;
+
 
 public class MainActivity extends ActionBarActivity {
 
     GridView gridview;
     Button buttonI, buttonD;
     ImageAdapter imageAdapter;
-    Integer [][] escenario;
+
+    Backgound backgound;
+    Iniciar iniciar;
+    Thread thread;
     boolean bucle = true;
-    int vivos = 2130837558, muertos = 2130837557, espera = 2130837555, contador = 0, c = 0;
-    int colum, fila;
-    int generacion = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +40,26 @@ public class MainActivity extends ActionBarActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                imageAdapter.setmThumbIds(position);
+            imageAdapter.setmThumbIds(position);
 
-                gridview.setAdapter(imageAdapter);
+            gridview.setAdapter(imageAdapter);
             }
         });
     }
 
     public void iniciar(View view) {
+
         gridview.setEnabled(false);
         buttonD.setVisibility(view.VISIBLE);
         buttonI.setVisibility(view.INVISIBLE);
         bucle = true;
-        celulas();
-        generacion++;
-        Toast.makeText(MainActivity.this, "" + generacion, Toast.LENGTH_SHORT).show();
 
-        gridview.setEnabled(true);
-        buttonD.setVisibility(view.INVISIBLE);
-        buttonI.setVisibility(view.VISIBLE);
-        bucle = false;
+        backgound = new Backgound(imageAdapter, gridview, bucle, this);
+        backgound.execute();
+
+        iniciar = new Iniciar(imageAdapter, gridview, bucle, this);
+        thread = new Thread(iniciar);
+        thread.start();
     }
 
     public void detener(View view) {
@@ -65,187 +67,8 @@ public class MainActivity extends ActionBarActivity {
         buttonD.setVisibility(view.INVISIBLE);
         buttonI.setVisibility(view.VISIBLE);
         bucle = false;
-    }
 
-    public void celulas() {
-        int estado[] = {gridview.getNumColumns(), 49/gridview.getNumColumns()};
-
-        colum = estado[0]; fila = estado[1];
-
-        crearEscenario(estado[0], estado[1]);
-
-        for (int x = 0; x < estado[1]; x++) {
-            for (int y = 0; y < estado[0]; y++) {
-                check(x, y);
-            }
-        }
-
-        c = 0;
-    }
-
-    public void check(int x, int y) {
-
-        if (x < colum && y == 0) {
-            if (x == 0) {
-                for (int a = x; a <= x+1 ; a++) {
-                    for (int b = y; b <= y+1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else if (x == colum-1) {
-                for (int a = x-1; a <= x; a++) {
-                    for (int b = y; b <= y+1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (int a = x-1; a <= x+1 ; a++) {
-                    for (int b = y; b <= y+1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }
-        }else if (x == 0 && y < fila) {
-            if (y == 0) {
-                for (int a = x; a <= x + 1; a++) {
-                    for (int b = y; b <= y + 1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else if (y == fila-1) {
-                for (int a = x; a <= x+1; a++) {
-                    for (int b = y-1; b <= y; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (int a = x; a <= x + 1; a++) {
-                    for (int b = y-1; b <= y + 1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }
-        } else if(x == colum-1 && y < fila) {
-            if (y == 0) {
-                for (int a = x-1; a <= x; a++) {
-                    for (int b = y; b <= y+1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else if (y == fila - 1) {
-                for (int a = x - 1; a <= x; a++) {
-                    for (int b = y - 1; b <= y; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (int a = x - 1; a <= x; a++) {
-                    for (int b = y-1; b <= y+1; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (y == fila-1 && x < colum) {
-            if (x == 0) {
-                for (int a = x; a <= x+1; a++) {
-                    for (int b = y-1; b <= y; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            } else if (x == colum - 1) {
-                for (int a = x - 1; a <= x; a++) {
-                    for (int b = y - 1; b <= y; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }else {
-                for (int a = x - 1; a <= x+1; a++) {
-                    for (int b = y-1; b <= y; b++) {
-                        if (a != x || b != y) {
-                            if (escenario[a][b] == vivos) {
-                                contador++;
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            for (int a = x-1; a <= x+1 ; a++) {
-                for (int b = y-1; b <= y+1; b++) {
-                    if (a != x || b != y) {
-                        if (escenario[a][b] == vivos) {
-                            contador++;
-                        }
-                    }
-                }
-            }
-
-        }
-
-        if ((contador < 2 || contador > 3) && escenario[x][y] == vivos) {
-            imageAdapter.setmThumbIdsMuertos(c);
-            gridview.setAdapter(imageAdapter);
-        } else if (contador == 3 && escenario[x][y] == muertos) {
-            imageAdapter.setmThumbIds(c);
-            gridview.setAdapter(imageAdapter);
-        }
-        contador = 0;
-        c++;
-    }
-
-    public void crearEscenario(int columnas, int filas) {
-        escenario = new Integer[columnas][filas];
-        int z = 0;
-        for (int x = 0; x < filas; x++) {
-            for (int y = 0; y < columnas; y++) {
-                escenario[x][y] = imageAdapter.mThumbIds[z];
-                z++;
-            }
-        }
+        thread.interrupt();
     }
 
     @Override
@@ -263,13 +86,15 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.recet) {
+        if (id == R.id.reset) {
             for (int x = 0; x <= 48; x++) {
                 imageAdapter.setmThumbIdsEspera(x);
                 gridview.setAdapter(imageAdapter);
             }
 
-            generacion = 0;
+            bucle = false;
+            if (thread != null) thread.interrupt();
+
             return true;
         }
 
