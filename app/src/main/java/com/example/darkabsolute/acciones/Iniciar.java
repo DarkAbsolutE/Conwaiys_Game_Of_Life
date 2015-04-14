@@ -18,7 +18,7 @@ public class Iniciar implements Runnable {
 
     Integer [][] escenario;
     int vivos = 2130837558, muertos = 2130837557, espera = 2130837555, contador = 0, c = 0;
-    int colum, fila;
+    int colum, fila, elementos = 49;
 
     boolean bucle;
     int generacion = 0;
@@ -56,24 +56,22 @@ public class Iniciar implements Runnable {
     }
 
     public void celulas() {
-        int estado[] = {gridview.getNumColumns(), 49/gridview.getNumColumns()};
 
-        colum = estado[0]; fila = estado[1];
+        colum = gridview.getNumColumns();
+        fila = elementos/gridview.getNumColumns();
 
-        crearEscenario(estado[0], estado[1]);
+        crearEscenario();
 
-        for (int x = 0; x < estado[1]; x++) {
-            for (int y = 0; y < estado[0]; y++) {
+        for (int x = 0; x < fila; x++) {
+            for (int y = 0; y < colum; y++) {
                 check(x, y);
             }
         }
-
-        c = 0;
     }
 
     public void check(int x, int y) {
 
-        if (x < colum && y == 0) {
+        if (x < fila && y == 0) {
             if (x == 0) {
                 for (int a = x; a <= x+1 ; a++) {
                     for (int b = y; b <= y+1; b++) {
@@ -84,7 +82,7 @@ public class Iniciar implements Runnable {
                         }
                     }
                 }
-            } else if (x == colum-1) {
+            } else if (x == fila-1) {
                 for (int a = x-1; a <= x; a++) {
                     for (int b = y; b <= y+1; b++) {
                         if (a != x || b != y) {
@@ -105,7 +103,7 @@ public class Iniciar implements Runnable {
                     }
                 }
             }
-        }else if (x == 0 && y < fila) {
+        }else if (x == 0 && y < colum) {
             if (y == 0) {
                 for (int a = x; a <= x + 1; a++) {
                     for (int b = y; b <= y + 1; b++) {
@@ -116,7 +114,7 @@ public class Iniciar implements Runnable {
                         }
                     }
                 }
-            } else if (y == fila-1) {
+            } else if (y == colum-1) {
                 for (int a = x; a <= x+1; a++) {
                     for (int b = y-1; b <= y; b++) {
                         if (a != x || b != y) {
@@ -137,7 +135,7 @@ public class Iniciar implements Runnable {
                     }
                 }
             }
-        } else if(x == colum-1 && y < fila) {
+        } else if(x == fila-1 && y < colum) {
             if (y == 0) {
                 for (int a = x-1; a <= x; a++) {
                     for (int b = y; b <= y+1; b++) {
@@ -148,7 +146,7 @@ public class Iniciar implements Runnable {
                         }
                     }
                 }
-            } else if (y == fila - 1) {
+            } else if (y == colum - 1) {
                 for (int a = x - 1; a <= x; a++) {
                     for (int b = y - 1; b <= y; b++) {
                         if (a != x || b != y) {
@@ -169,7 +167,7 @@ public class Iniciar implements Runnable {
                     }
                 }
             }
-        } else if (y == fila-1 && x < colum) {
+        } else if (y == colum-1 && x < fila) {
             if (x == 0) {
                 for (int a = x; a <= x+1; a++) {
                     for (int b = y-1; b <= y; b++) {
@@ -180,7 +178,7 @@ public class Iniciar implements Runnable {
                         }
                     }
                 }
-            } else if (x == colum - 1) {
+            } else if (x == fila - 1) {
                 for (int a = x - 1; a <= x; a++) {
                     for (int b = y - 1; b <= y; b++) {
                         if (a != x || b != y) {
@@ -223,11 +221,11 @@ public class Iniciar implements Runnable {
         c++;
     }
 
-    public void crearEscenario(int columnas, int filas) {
-        escenario = new Integer[columnas][filas];
+    public void crearEscenario() {
+        escenario = new Integer[fila][colum];
         int z = 0;
-        for (int x = 0; x < filas; x++) {
-            for (int y = 0; y < columnas; y++) {
+        for (int x = 0; x < fila; x++) {
+            for (int y = 0; y < colum; y++) {
                 escenario[x][y] = imageAdapter.mThumbIds[z];
                 z++;
             }

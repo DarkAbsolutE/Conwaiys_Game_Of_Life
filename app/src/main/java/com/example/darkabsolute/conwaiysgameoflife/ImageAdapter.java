@@ -79,6 +79,5 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.ic_espera, R.drawable.ic_espera, R.drawable.ic_espera,
             R.drawable.ic_espera, R.drawable.ic_espera, R.drawable.ic_espera,
             R.drawable.ic_espera
-
     };
 }
