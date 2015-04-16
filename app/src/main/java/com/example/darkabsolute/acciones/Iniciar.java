@@ -20,7 +20,7 @@ public class Iniciar implements Runnable {
     int vivos = 2130837558, muertos = 2130837557, espera = 2130837555, contador = 0, c = 0;
     int colum, fila, elementos = 49;
 
-    boolean bucle;
+    public boolean bucle;
     int generacion = 0;
 
     private MainActivity mainActivity;
@@ -35,38 +35,44 @@ public class Iniciar implements Runnable {
     @Override
     public void run() {
 
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //while (bucle) {
-                    celulas();
-                    gridview.setAdapter(imageAdapter);
-
-                    generacion++;
-                    Toast.makeText(mainActivity, "" + generacion, Toast.LENGTH_SHORT).show();
-
-                    /*try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
-                //}
-            }
-        });
-    }
-
-    public void celulas() {
-
         colum = gridview.getNumColumns();
         fila = elementos/gridview.getNumColumns();
 
         crearEscenario();
+
+        while (bucle) {
+            celulas();
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    crearEscenario();
+
+                    gridview.setAdapter(imageAdapter);
+
+                    Toast.makeText(mainActivity, "" + generacion, Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void celulas() {
 
         for (int x = 0; x < fila; x++) {
             for (int y = 0; y < colum; y++) {
                 check(x, y);
             }
         }
+
+        generacion++;
+
+        c = 0;
     }
 
     public void check(int x, int y) {

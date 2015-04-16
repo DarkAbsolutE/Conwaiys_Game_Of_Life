@@ -54,9 +54,8 @@ public class MainActivity extends ActionBarActivity {
         buttonI.setVisibility(view.INVISIBLE);
         bucle = true;
 
-        backgound = new Backgound(imageAdapter, gridview, bucle, this);
-        backgound.execute();
-
+        //backgound = new Backgound(imageAdapter, gridview, bucle, this);
+        //backgound.execute();
         iniciar = new Iniciar(imageAdapter, gridview, bucle, this);
         thread = new Thread(iniciar);
         thread.start();
@@ -66,8 +65,8 @@ public class MainActivity extends ActionBarActivity {
         gridview.setEnabled(true);
         buttonD.setVisibility(view.INVISIBLE);
         buttonI.setVisibility(view.VISIBLE);
-        bucle = false;
 
+        iniciar.bucle = false;
         thread.interrupt();
     }
 
@@ -92,9 +91,11 @@ public class MainActivity extends ActionBarActivity {
                 gridview.setAdapter(imageAdapter);
             }
 
-            bucle = false;
+            iniciar.bucle = false;
             if (thread != null) thread.interrupt();
-
+            if (gridview.isEnabled() == false) gridview.setEnabled(true);
+            buttonD.setVisibility(View.INVISIBLE);
+            buttonI.setVisibility(View.VISIBLE);
             return true;
         }
 
