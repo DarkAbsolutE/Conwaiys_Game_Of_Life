@@ -220,7 +220,7 @@ public class Iniciar implements Runnable {
 
         if ((contador < 2 || contador > 3) && escenario[x][y] == vivos) {
             imageAdapter.setmThumbIdsMuertos(c);
-        } else if (contador == 3 && escenario[x][y] == muertos) {
+        } else if (contador == 3) {// && escenario[x][y] == muertos) {
             imageAdapter.setmThumbIds(c);
         }
         contador = 0;
